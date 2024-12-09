@@ -1,0 +1,4 @@
+apiVersion: v1
+kind: Namespace #kubernetes cluster lo Namespace ani resources create chestunam
+metadata:
+  name: roboshop
