@@ -1,0 +1,52 @@
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: roboshop
+  labels: #these labels are deploment labels
+    app: web
+    project: roboshop
+    tier: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+      app: web
+      project: roboshop
+      tier: web
+  template: #template dhagara nuchi kindha antha pod definition , paina antha deployment
+    metadata:
+      labels: #these labels are pod labels
+        app: web
+        project: roboshop
+        tier: web
+    spec:
+      containers:
+      - name: web
+        image: charankumarpadeti/web:v1
+        imagePullPolicy: Always
+        # envFrom:
+        # - configMapRef:
+        #     name: catalogue
+---
+
+#pod to pod communicate avvali ante which service we use clusterIP
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: roboshop
+spec:
+  type: LoadBalancer
+  selector: #paina vuna pod create ipothadi service dheniki velli attach avvali that is the service.
+    app: web
+    project: roboshop
+    tier: web
+  ports:
+  - protocol: TCP
+    port: 80 #service port we can give anything
+    targetPort: 80 #containerPort  , nginx
