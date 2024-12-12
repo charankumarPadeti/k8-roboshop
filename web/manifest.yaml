@@ -116,13 +116,6 @@ spec:
         tier: web
     spec:
       containers:
-      volumes:
-      - name: nginx-conf
-        configMap:
-          name: web
-          items:
-          - key: nginx.conf
-            path: nginx.conf
       - name: web
         image: charankumarpadeti/web:v1
         imagePullPolicy: Always
@@ -131,6 +124,13 @@ spec:
           mountPath: /etc/nginx/nginx.conf
           subPath: nginx.conf
           readOnly: true
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: web
+          items:
+            - key: nginx.conf
+              path: nginx.conf
 ---
 
 #pod to pod communicate avvali ante which service we use clusterIP
