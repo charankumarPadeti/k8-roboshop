@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mongodb
   namespace: roboshop
-  labels: #these labels are deplyment lables
+  labels: #these labels are deploment labels
     app: nginx
     project: roboshop
     tier: db
