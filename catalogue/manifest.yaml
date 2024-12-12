@@ -1,33 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalogue
+  namespace: roboshop
+data: # miru a data ni store chestunaru
+  MONGO: true
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
+  name: catalogue
   namespace: roboshop
-  labels: #these labels are deployment
-    app: nginx
+  labels: #these labels are deploment labels
+    app: catalogue
     project: roboshop
-    tier: db
+    tier: app
 spec:
   replicas: 1
   selector:
     matchLabels: #these labels are used to find the pods
-      app: nginx
+      app: catalogue
       project: roboshop
-      tier: db
+      tier: app
   template: #template dhagara nuchi kindha antha pod definition , paina antha deployment
     metadata:
       labels: #these labels are pod labels
-        app: nginx
+        app: catalogue
         project: roboshop
-        tier: db
+        tier: app
     spec:
       containers:
-      - name: mongodb
-        image: charankumarpadeti/mongodb:v1
+      - name: catalogue
+        image: charankumarpadeti/catalogue:v1
         imagePullPolicy: Always
-
+        envFrom:
+        - configMapRef:
+            name: catalogue
 ---
-#pod to pod communicate avvali ante which one we use clusterIP
+
+#pod to pod communicate avvali ante which service we use clusterIP
 
 apiVersion: v1
 kind: Service
@@ -40,9 +52,6 @@ spec:
     project: roboshop
     tier: db
   ports:
-    - protocol: TCP
-      port: 27017 #service port we can give anything
-      targetPort: 27017 #containerPort  , nginx
-
-
-#1. deplyment create avuthundhi, 2. relica create avuthundhi , 3 .pod create avuthundhi , 4. pod velli service ki attach avuthundhi.
+  - protocol: TCP
+    port: 8080 #service port we can give anything
+    targetPort: 8080 #containerPort  , nginx
