@@ -4,7 +4,7 @@ metadata:
   name: catalogue
   namespace: roboshop
 data: # miru a data ni store chestunaru
-  MONGO: true
+  MONGO: "true"
 ---
 
 apiVersion: apps/v1
