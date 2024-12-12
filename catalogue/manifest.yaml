@@ -44,13 +44,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb
+  name: catalogue
   namespace: roboshop
 spec:
   selector: #paina vuna pod create ipothadi service dheniki velli attach avvali that is the service.
-    app: nginx
+    app: catalogue
     project: roboshop
-    tier: db
+    tier: app
   ports:
   - protocol: TCP
     port: 8080 #service port we can give anything
