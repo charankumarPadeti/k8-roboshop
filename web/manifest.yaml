@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: catalogue
+  name: web
   namespace: roboshop
 data: # miru a data ni store chestunaru
   nginx.conf: |
