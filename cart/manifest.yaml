@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cart
+  namespace: roboshop
+data: # miru a data ni store chestunaru
+  REDIS_HOST: "redis"
+  CATALOGUE_HOST: "catalogue"
+  CATALOGUE_PORT: "8080"
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart
+  namespace: roboshop
+  labels: #these labels are deploment labels
+    app: cart
+    project: roboshop
+    tier: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+      app: cart
+      project: roboshop
+      tier: app
+  template: #template dhagara nuchi kindha antha pod definition , paina antha deployment
+    metadata:
+      labels: #these labels are pod labels
+        app: cart
+        project: roboshop
+        tier: app
+    spec:
+      containers:
+      - name: cart
+        image: charankumarpadeti/cart:v1
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: cart
+---
+
+#pod to pod communicate avvali ante which service we use clusterIP
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart
+  namespace: roboshop
+spec:
+  selector: #paina vuna pod create ipothadi service dheniki velli attach avvali that is the service.
+    app: cart
+    project: roboshop
+    tier: app
+  ports:
+  - protocol: TCP
+    port: 8080 #service port we can give anything
+    targetPort: 8080 #containerPort  , nginx
