@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: roboshop
+  labels: #these labels are deployment
+    app: redis
+    project: roboshop
+    tier: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+      app: redis
+      project: roboshop
+      tier: db
+  template: #template dhagara nuchi kindha antha pod definition , paina antha deployment
+    metadata:
+      labels: #these labels are pod labels
+        app: redis
+        project: roboshop
+        tier: db
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        imagePullPolicy: Always
+
+---
+#pod to pod communicate avvali ante which one we use clusterIP
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: roboshop
+spec:
+  selector: #paina vuna pod create ipothadi service dheniki velli attach avvali that is the service.
+    app: redis
+    project: roboshop
+    tier: db
+  ports:
+    - protocol: TCP
+      port: 6379 #service port we can give anything
+      targetPort: 6379 #containerPort  , nginx
+
+
+#1. deplyment create avuthundhi, 2. relica create avuthundhi , 3 .pod create avuthundhi , 4. pod velli service ki attach avuthundhi.
