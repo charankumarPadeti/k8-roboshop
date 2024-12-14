@@ -96,6 +96,10 @@ data: # miru a data ni store chestunaru
           proxy_pass http://cart:8080/;
         }
 
+        location /api/shipping/ {
+          proxy_pass http://shipping:8080/;
+        }
+
     }
 
     }
