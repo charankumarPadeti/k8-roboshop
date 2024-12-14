@@ -5,7 +5,7 @@ metadata:
   namespace: roboshop
 data: # miru a data ni store chestunaru
   CART_ENDPOINT: "cart:8080"
-  ENV DB_HOST: mysql
+  DB_HOST: mysql
 ---
 
 apiVersion: apps/v1
